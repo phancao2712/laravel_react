@@ -4,14 +4,14 @@ import {
     createBrowserRouter,
     RouterProvider,
 } from "react-router-dom";
-import Login from './page/login';
+import Login from './pages/login';
 
 const router = createBrowserRouter([
     {
         path: "/login",
         element: <Login />,
     },
-    
+
 ]);
 import './index.css'
 ReactDOM.createRoot(document.getElementById('root')!).render(

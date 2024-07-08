@@ -1,12 +1,13 @@
 import { useForm, SubmitHandler } from "react-hook-form";
+import AuthService from "../services/AuthService";
 type Inputs = {
     email: string,
     password: string,
   };
 function Login() {
     const { register, handleSubmit, formState: { errors } } = useForm<Inputs>();
-    const login: SubmitHandler<Inputs> = () => {
-        console.log(123);
+    const login: SubmitHandler<Inputs> = (data) => {
+        AuthService.login(data);
     }
         return (
             <>
