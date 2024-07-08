@@ -11,6 +11,7 @@ const router = createBrowserRouter([
         path: "/login",
         element: <Login />,
     },
+    
 ]);
 import './index.css'
 ReactDOM.createRoot(document.getElementById('root')!).render(
