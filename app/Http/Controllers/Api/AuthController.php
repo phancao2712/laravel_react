@@ -22,7 +22,7 @@ class AuthController extends Controller
         $credentials = request(['email', 'password']);
 
         if (!$token = auth('api')->attempt($credentials)) {
-            return response()->json(['error' => Response::$statusTexts[401]], Response::HTTP_UNAUTHORIZED);
+            return response()->json(['error' => 'Sai tên đăng nhập hoặc mật khẩu'], Response::HTTP_UNAUTHORIZED);
         }
 
         $cookie = Cookie::make('access_token', $token, auth('api')->factory()->getTTL() * 1);
