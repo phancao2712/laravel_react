@@ -3,6 +3,9 @@ import AuthService from "../services/AuthService";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setMessage } from "../redux/slice/toastSlice";
+import { Button } from "../components/ui/button"
+import { Loader2 } from "lucide-react"
+import { useState } from "react";
 // import { toast } from "react-toastify";
 // import { useToast } from "../contexts/toastContext";
 
@@ -15,12 +18,15 @@ function Login() {
     const dispatch = useDispatch();
     // const { setMessage } = useToast();
     const { register, handleSubmit, formState: { errors } } = useForm<Inputs>();
+    const [ loading, setLoading ] = useState<boolean>(false)
     const login: SubmitHandler<Inputs> = async (data) => {
+        setLoading(true)
         const logged = await AuthService.login(data);
         if (logged === true) {
             navigate('/dashboard')
-            dispatch(setMessage({message: "Đăng nhập thành công", type: 'success'}))
-            // setMessage("Đăng nhập thành công", 'success')
+            dispatch(setMessage({ message: "Đăng nhập thành công", type: 'success' }))
+        } else {
+            setLoading(false)
         }
     }
     return (
@@ -58,7 +64,10 @@ function Login() {
                                     </div>
                                     <a href="#" className="text-sm font-medium text-primary-600 hover:underline dark:text-primary-500">Quên mật khẩu?</a>
                                 </div>
-                                <button type="submit" className="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Đăng nhập</button>
+                                <Button type="submit" disabled={loading} className="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
+                                    { loading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
+                                    { loading ? "Đang đăng nhập" : "Đăng nhập" }
+                                </Button>
                             </form>
                         </div>
                     </div>
