@@ -26,8 +26,8 @@ class AuthController extends Controller
         }
 
         $cookie = Cookie::make('access_token', $token, auth('api')->factory()->getTTL() * 1);
-
-        return $this->respondWithToken($token)->withCookie($cookie);
+        $user = auth('api')->user();
+        return $this->respondWithToken($token, $user)->withCookie($cookie);
     }
 
     public function profile()
@@ -48,10 +48,11 @@ class AuthController extends Controller
     }
 
 
-    protected function respondWithToken($token)
+    protected function respondWithToken($token, $user)
     {
         return response()->json([
             'access_token' => $token,
+            'user' => $user,
             'token_type' => 'bearer',
             'expires_in' => auth('api')->factory()->getTTL()
         ]);

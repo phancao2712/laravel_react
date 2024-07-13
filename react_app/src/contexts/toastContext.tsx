@@ -1,4 +1,4 @@
-import React, { ContextType, createContext, ReactNode, useContext, useState } from "react";
+import React, { createContext, ReactNode, useContext } from "react";
 
 export type TypeToast = null | "success" | "error" | "warning" | "info"
 

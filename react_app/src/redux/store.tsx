@@ -1,9 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit'
 import toastCounter from './slice/toastSlice'
+import authCounter from './slice/authSlice'
 
 export const store = configureStore({
   reducer: {
     toast: toastCounter,
+    auth: authCounter
   },
 })
 

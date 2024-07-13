@@ -6,8 +6,7 @@ import { setMessage } from "../redux/slice/toastSlice";
 import { Button } from "../components/ui/button"
 import { Loader2 } from "lucide-react"
 import { useState } from "react";
-// import { toast } from "react-toastify";
-// import { useToast } from "../contexts/toastContext";
+import { setAuthLogin } from "../redux/slice/authSlice";
 
 type Inputs = {
     email: string,
@@ -16,16 +15,20 @@ type Inputs = {
 function Login() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    // const { setMessage } = useToast();
+
     const { register, handleSubmit, formState: { errors } } = useForm<Inputs>();
     const [ loading, setLoading ] = useState<boolean>(false)
+
     const login: SubmitHandler<Inputs> = async (data) => {
         setLoading(true)
-        const logged = await AuthService.login(data);
-        if (logged === true) {
-            navigate('/dashboard')
+        const user = await AuthService.login(data);
+        try {
             dispatch(setMessage({ message: "Đăng nhập thành công", type: 'success' }))
-        } else {
+            user && navigate('/dashboard')
+            dispatch(setAuthLogin(user))
+        } catch (error) {
+            console.log(error);
+        } finally {
             setLoading(false)
         }
     }

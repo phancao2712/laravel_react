@@ -6,13 +6,13 @@ type LoginPayload = {
     password: string
 }
 
-const login = async (payload: LoginPayload) : Promise<boolean> => {
+const login = async (payload: LoginPayload) : Promise<any> => {
     try {
         const response = await axiosInstance.post('/auth/login', {
             email: payload.email,
             password: payload.password
         })
-        return true;
+        return response.data.user
     } catch (error) {
         console.log(error);
         handelAxiosError(error)

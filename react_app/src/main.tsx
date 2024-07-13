@@ -5,7 +5,6 @@ import {
     RouterProvider,
 } from "react-router-dom";
 
-
 // Page
 import Login from './pages/login';
 import Dashboard from './pages/dashboard';
@@ -16,8 +15,22 @@ const router = createBrowserRouter([
         element: <Login />,
     },
     {
-        path: "/dashboard",
-        element: <Dashboard />,
+        path: "/",
+        element:
+            <AuthMiddleware>
+                <Layout />
+            </AuthMiddleware>
+        ,
+        children: [
+            {
+                path: "/dashboard",
+                element: <Dashboard />
+            },
+            {
+                path: "/user",
+                element: <User />
+            },
+        ]
     },
 
 ]);
@@ -27,16 +40,15 @@ import './index.css'
 import 'react-toastify/dist/ReactToastify.css';
 
 // Service
-import { ToastProvider } from './contexts/toastContext';
 import { Provider } from 'react-redux'
 import { store } from './redux/store';
-
+import Layout from './components/layouts/layout';
+import User from './pages/user/user';
+import AuthMiddleware from './middleware/AuthMiddleware';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
     <Provider store={store}>
-        <ToastProvider>
-            <RouterProvider router={router} />
-            <ToastContainer />
-        </ToastProvider>
+        <RouterProvider router={router} />
+        <ToastContainer />
     </Provider>
 )
