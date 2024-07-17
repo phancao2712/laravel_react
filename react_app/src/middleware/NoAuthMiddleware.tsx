@@ -3,6 +3,7 @@ import { RootState } from "../redux/store";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { fetchUser } from "../services/AuthService";
+import { setAuthLogin } from "../redux/slice/authSlice";
 
 
 type ProtectedRouteProps = PropsWithChildren
@@ -16,6 +17,7 @@ const NoAuthMiddleware = ({ children }: ProtectedRouteProps) => {
             try {
                 const userData = await fetchUser();
                 if (userData !== null) {
+                    setAuthLogin(userData)
                     navigate('/dashboard')
                 } else {
                 setCheckedLogin(true)
@@ -23,7 +25,6 @@ const NoAuthMiddleware = ({ children }: ProtectedRouteProps) => {
             } catch (error) {
                 setCheckedLogin(true)
             }
-
         }
         if (!isAuthenticated && user === null) {
             checkLogin()
