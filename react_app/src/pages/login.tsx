@@ -1,5 +1,4 @@
 import { useForm, SubmitHandler } from "react-hook-form";
-import AuthService from "../services/AuthService";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setMessage } from "../redux/slice/toastSlice";
@@ -7,6 +6,7 @@ import { Button } from "../components/ui/button"
 import { Loader2 } from "lucide-react"
 import { useState } from "react";
 import { setAuthLogin } from "../redux/slice/authSlice";
+import { login } from "../services/AuthService";
 
 type Inputs = {
     email: string,
@@ -19,19 +19,22 @@ function Login() {
     const { register, handleSubmit, formState: { errors } } = useForm<Inputs>();
     const [ loading, setLoading ] = useState<boolean>(false)
 
-    const login: SubmitHandler<Inputs> = async (data) => {
+    const handleLogin: SubmitHandler<Inputs> = async (data) => {
         setLoading(true)
-        const user = await AuthService.login(data);
         try {
+            const user = await login(data);
             dispatch(setMessage({ message: "Đăng nhập thành công", type: 'success' }))
             user && navigate('/dashboard')
-            dispatch(setAuthLogin(user))
+            if (user) {
+                dispatch(setAuthLogin(user));
+            }
         } catch (error) {
             console.log(error);
         } finally {
             setLoading(false)
         }
-    }
+    };
+
     return (
         <>
             <section className="bg-gray-50 dark:bg-gray-900">
@@ -45,7 +48,7 @@ function Login() {
                             <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
                                 Đăng nhập tài khoản
                             </h1>
-                            <form className="space-y-4 md:space-y-6" onSubmit={handleSubmit(login)}>
+                            <form className="space-y-4 md:space-y-6" onSubmit={handleSubmit(handleLogin)}>
                                 <div>
                                     <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email</label>
                                     <input type="email" {...register("email", { required: true })} id="email" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg  block w-full p-2.5 focus:outline-none focus:ring focus:ring-blue-300" placeholder="name@company.com" />

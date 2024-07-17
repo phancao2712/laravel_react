@@ -8,11 +8,16 @@ import {
 // Page
 import Login from './pages/login';
 import Dashboard from './pages/dashboard';
+import AuthLogin from './middleware/NoAuthMiddleware'
 
 const router = createBrowserRouter([
     {
         path: "/login",
-        element: <Login />,
+        element: (
+            <AuthLogin>
+                <Login/>
+            </AuthLogin>
+        )
     },
     {
         path: "/",
