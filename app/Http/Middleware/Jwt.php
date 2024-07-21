@@ -19,10 +19,10 @@ class Jwt
     public function handle(Request $request, Closure $next): Response
     {
         try {
-            if($request->hasCookie('access_token')) {
-                $token = $request->cookie('access_token');
-                $request->headers->set('Authorization', 'Bearer ' . $token);
-            }
+            // if($request->hasCookie('access_token')) {
+            //     $token = $request->cookie('access_token');
+            //     $request->headers->set('Authorization', 'Bearer ' . $token);
+            // }
             $user = JWTAuth::parseToken()->authenticate();
 
         } catch (TokenExpiredException $e) {
