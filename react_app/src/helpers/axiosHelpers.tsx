@@ -10,7 +10,8 @@ const handelAxiosError = (error: unknown) => {
 
         }
     } else {
-        toast.error("Đã xảy ra lỗi! Vui lòng thử lại")
+        console.log(error);
+        // toast.error("Đã xảy ra lỗi! Vui lòng thử lại")
     }
 }
 

@@ -26,7 +26,6 @@ const fetchUser = async () : Promise<User | null> => {
         const response = await axiosInstance.get('/auth/profile')
         return response.data
     } catch (error) {
-        console.log(error);
         handelAxiosError(error)
         return null;
     }
